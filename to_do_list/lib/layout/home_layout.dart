@@ -20,7 +20,7 @@ class _HomeLayoutState extends State<HomeLayout> {
   List<String> titles = [
     'Tasks',
     'Done Tasks',
-    'Archived Taks',
+    'Archived Takss',
   ];
   @override
   Widget build(BuildContext context) {
