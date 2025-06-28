@@ -16,7 +16,7 @@ class AppCubit extends Cubit<AppStates> {
   List<Map> newTasks = [];
   List<Map> archivedTasks = [];
   List<Map> doneTasks = [];
-
+  String selectedPriority = 'Normal';
   bool isBottomSheetShown = false;
   IconData fabIcon = Icons.edit;
   int currentIndex = 0;
@@ -26,9 +26,9 @@ class AppCubit extends Cubit<AppStates> {
     ArchivedTasksScreen(),
   ];
   List<String> titles = [
-    'Tasks',
-    'Done Tasks',
-    'Archived Takss',
+    'To Do List',
+    'Done',
+    'Archived',
   ];
 
   void changeIndex(int index) {
@@ -48,7 +48,7 @@ class AppCubit extends Cubit<AppStates> {
                 //date string
                 //time string
                 //status string
-                'CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, date TEXT, time TEXT, status TEXT)')
+                'CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, date TEXT, time TEXT, status TEXT , priority TEXT)')
             .then((value) {
           print('Table created');
         }).catchError((error) {
@@ -72,11 +72,12 @@ class AppCubit extends Cubit<AppStates> {
     @required String title,
     @required String date,
     @required String time,
+    @required String priority,
   ) async {
     await database?.transaction((txn) async {
       txn
           .rawInsert(
-              'INSERT INTO tasks(title ,date ,time ,status)VALUES ("$title","$date","$time","new" )')
+              'INSERT INTO tasks(title ,date ,time ,status,priority)VALUES ("$title","$date","$time","new" ,"$priority")')
           .then((value) {
         print('inserted successfully: $value');
         emit(AppInsertDatabaseState());

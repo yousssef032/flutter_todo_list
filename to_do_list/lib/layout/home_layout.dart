@@ -24,6 +24,7 @@ class HomeLayout extends StatelessWidget {
   var titleController = TextEditingController();
   var timeController = TextEditingController();
   var dateController = TextEditingController();
+  var priorityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,27 @@ class HomeLayout extends StatelessWidget {
           return Scaffold(
             key: scaffoldKey,
             appBar: AppBar(
-              title: Text(cubit.titles[cubit.currentIndex]),
+              backgroundColor: Color(0XFFEFF1FF),
+              title: Text(
+                cubit.titles[cubit.currentIndex],
+                style: TextStyle(
+                  fontSize: 22.0,
+                  color: Color(0XFF2B3031),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              centerTitle: true,
+              leading: Icon(Icons.menu, color: Colors.black, size: 30.0),
+              actions: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Icon(
+                    Icons.notifications_rounded,
+                    color: Colors.grey[800],
+                    size: 30.0,
+                  ),
+                ),
+              ],
             ),
             body: state is AppGetDatabaseLoadingState
                 ? Center(
@@ -53,6 +74,8 @@ class HomeLayout extends StatelessWidget {
                   )
                 : cubit.screens[cubit.currentIndex],
             floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
               onPressed: () {
                 if (cubit.isBottomSheetShown) {
                   if (formKey.currentState?.validate() ?? false) {
@@ -60,6 +83,7 @@ class HomeLayout extends StatelessWidget {
                       titleController.text,
                       dateController.text,
                       timeController.text,
+                      cubit.selectedPriority,
                     );
                   } else {}
                 } else {
@@ -67,7 +91,13 @@ class HomeLayout extends StatelessWidget {
                       .showBottomSheet(
                         elevation: 20.0,
                         (context) => Container(
-                          color: Colors.white,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30.0),
+                              topRight: Radius.circular(30.0),
+                            ),
+                          ),
                           padding: const EdgeInsets.all(20.0),
                           child: Form(
                             key: formKey,
@@ -143,6 +173,35 @@ class HomeLayout extends StatelessWidget {
                                   },
                                   prefix: Icons.calendar_month_outlined,
                                 ),
+                                SizedBox(
+                                  height: 15.0,
+                                ),
+                                DropdownButtonFormField<String>(
+                                  value: cubit.selectedPriority,
+                                  decoration: InputDecoration(
+                                    labelText: 'Priority',
+                                    prefixIcon: Icon(Icons.flag),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: ['High', 'Normal', 'Low']
+                                      .map((priority) =>
+                                          DropdownMenuItem<String>(
+                                            value: priority,
+                                            child: Text(priority),
+                                          ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      cubit.selectedPriority = value;
+                                    }
+                                  },
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select a priority';
+                                    }
+                                    return null;
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -168,6 +227,7 @@ class HomeLayout extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               currentIndex: cubit.currentIndex,
+              selectedItemColor: Colors.black,
               onTap: (index) {
                 cubit.changeIndex(index);
               },

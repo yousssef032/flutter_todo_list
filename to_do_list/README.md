@@ -1,16 +1,39 @@
-# to_do_list
+# 📱 Flutter To-Do List App
 
-A new Flutter project.
+A modern, feature-rich task management application built with Flutter. Organize your daily tasks with priority levels, date/time scheduling, and efficient task categorization.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+- **📝 Task Management**: Create, edit, and delete tasks with ease
+- **🎯 Priority Levels**: Set task priorities (High, Normal, Low) for better organization
+- **📅 Date & Time Scheduling**: Schedule tasks with specific dates and times
+- **📂 Task Categories**: 
+  - New Tasks (Pending)
+  - Completed Tasks (Done)
+  - Archived Tasks
+- **💾 Local Storage**: All data is stored locally using Sqflite database
+- **🎨 Modern UI**: Clean and intuitive user interface with smooth animations
+- **📱 Cross-Platform**: Runs on Android, iOS, Windows, macOS, Linux, and Web
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🏗️ Project Structure
+
+```
+lib/
+├── main.dart                 # Entry point of the application
+├── layout/
+│   └── home_layout.dart     # Main layout with bottom navigation
+├── modules/
+│   ├── new_tasks/           # New tasks screen
+│   ├── done_tasks/          # Completed tasks screen
+│   └── archived_tasks/      # Archived tasks screen
+└── shared/
+    ├── components.dart      # Reusable UI components
+    ├── constants.dart       # App constants
+    ├── bloc_observer.dart   # Bloc state observer
+    └── cubit/
+        ├── cubit.dart       # App state management
+        └── states.dart      # App states definitions
+```
+
